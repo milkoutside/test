@@ -2,9 +2,9 @@
 
 namespace App\Helpers;
 use Illuminate\Support\Facades\Http;
-class AuthHelper
+class AuthHelper implements IAuthHelper
 {
-    public static function getToken() {
+    public static function getAccessToken() {
 
         $clientId = '1000.IRHZ7X8HJU8DD1ICKAWVQGRPGWY3KG';
 

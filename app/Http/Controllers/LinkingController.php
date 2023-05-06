@@ -14,7 +14,7 @@ class LinkingController extends Controller
         $dealId = $request->input('id');
         $account = $request->input('account');
 
-        $accessToken = AuthHelper::getToken();
+        $accessToken = AuthHelper::getAccessToken();
 
         $post_data = [
             'data'=>[

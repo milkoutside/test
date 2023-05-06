@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\AuthHelper;
+use App\Models\Deal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -14,35 +15,26 @@ class DealController extends Controller
         $dealStage = $request->input('dealStage');
 
 
-        $accessToken = AuthHelper::getToken();
+        $accessToken = AuthHelper::getAccessToken();
 
-        $post_data = [
-            'data'=>[
-                [
-                    'Deal_Name' => $dealName,
-                    'Stage' =>$dealStage,
-                ]
-            ],
-            'trigger'=>[
-                'approval',
-                'workflow',
-                'blueprint'
-            ]
-        ];
+        $deal = new Deal($dealName,$dealStage);
+
+        $dealData = $deal->getDeal();
+
 
 
 
         $responce = Http::withHeaders([
             'Authorization' => 'Zoho-oauthtoken ' . $accessToken,
 
-        ])->post('https://crm.zoho.eu/crm/v2/Deals',$post_data);
+        ])->post('https://crm.zoho.eu/crm/v2/Deals',$dealData);
 
         return $responce;
 
 
     }
     public function getDeals(){
-        $accessToken = AuthHelper::getToken();
+        $accessToken = AuthHelper::getAccessToken();
 
         $response = Http::withHeaders([
             'Authorization' => 'Zoho-oauthtoken ' . $accessToken,

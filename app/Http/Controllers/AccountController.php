@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\AuthHelper;
+use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -15,29 +16,15 @@ class AccountController extends Controller
         $WebSite = $request->input('WebSite');
         $Phone = $request->input('Phone');
 
-        $accessToken = AuthHelper::getToken();
-
-        $post_data = [
-            'data'=>[
-                [
-                    'Account_Name' => $accountName,
-                    'Website' =>$WebSite,
-                    'Phone' =>$Phone,
-                ]
-            ],
-            'trigger'=>[
-                'approval',
-                'workflow',
-                'blueprint'
-            ]
-        ];
-
+        $accessToken = AuthHelper::getAccessToken();
+        $account = new Account($accountName,$WebSite,$Phone);
+        $accountData = $account->getAccount();
 
 
         $responce  = Http::withHeaders([
             'Authorization' => 'Zoho-oauthtoken ' . $accessToken,
 
-        ])->post('https://crm.zoho.eu/crm/v2/Accounts',$post_data);
+        ])->post('https://crm.zoho.eu/crm/v2/Accounts',$accountData);
 
         return $responce ;
 
@@ -45,7 +32,7 @@ class AccountController extends Controller
 
     public function getAccountName()
     {
-        $accessToken = AuthHelper::getToken();
+        $accessToken = AuthHelper::getAccessToken();
 
         $response = Http::withHeaders([
             'Authorization' => 'Zoho-oauthtoken ' . $accessToken,
