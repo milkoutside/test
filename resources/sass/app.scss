@@ -1,0 +1,24 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+header{
+    border-bottom: black 1px solid;
+}
+.header-link {
+    text-decoration: none;
+    font-weight: 700;
+    color:black;
+}
+
+.header-link:hover{
+    color:blue;
+}
+ul,li{
+    text-decoration: none;
+    list-style-type: none;
+}
